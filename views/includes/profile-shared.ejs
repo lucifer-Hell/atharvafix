@@ -1,0 +1,34 @@
+<h2><img class="avatar-small" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"> <%= username %>  
+    <% if(user){
+      if(isFollowing){ %>
+        <form class="ml-2 d-inline" action="/removeFollow/<%=  username %>?_method=DELETE" method="POST">
+          <button class="btn btn-danger btn-sm">Stop Following <i class="fas fa-user-times"></i></button>
+        </form>
+      <%}
+      else if(!foundUser._id.equals(visitorId)){%>
+        <form class="ml-2 d-inline" action="/addFollow/<%=  username %>" method="POST">
+          <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
+        </form>
+      <%}
+    }%>
+  </h2>
+  
+  <div class="profile-nav nav nav-tabs pt-2 mb-4">
+    <% if(currentPage=='posts'){ %>
+      <a href="/profile/<%=username%>" class="profile-nav-link nav-item nav-link active">Posts: <%=postCount%></a>
+    <%}else{%>
+      <a href="/profile/<%=username%>" class="profile-nav-link nav-item nav-link">Posts: <%=postCount%></a>
+    <%}%>
+
+    <% if(currentPage=='followers'){ %>
+      <a href="/profile/<%=username%>/followers" class="profile-nav-link nav-item nav-link active">Followers: <%=followerCount%></a>
+    <%}else{%>
+      <a href="/profile/<%=username%>/followers" class="profile-nav-link nav-item nav-link ">Followers: <%=followerCount%></a>
+    <%}%>
+
+    <% if(currentPage=='following'){ %>
+      <a href="/profile/<%=username%>/following" class="profile-nav-link nav-item nav-link active">Following: <%=followingCount%></a>
+    <%}else{%>
+      <a href="/profile/<%=username%>/following" class="profile-nav-link nav-item nav-link ">Following: <%=followingCount%></a>
+    <%}%>
+  </div>
