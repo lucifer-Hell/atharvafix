@@ -1,6 +1,11 @@
+const dotenv=require('dotenv').config();
 const express=require('express')
 const app=express()
 const mongoose=require('mongoose')
+mongoose.connect(process.env.conn, {useUnifiedTopology: true,useNewUrlParser: true})
+.then(() => console.log('DB Connected!'))
+.catch(err => console.log(err));
+
 const userController = require("./controllers/userController")
 const postController = require("./controllers/postController")
 const profileController = require("./controllers/profileController")
@@ -13,9 +18,8 @@ const markdown=require('marked');
 const bodyParser=require("body-parser")
 const sanitizeHtml=require("sanitize-html");
 
-const dotenv=require('dotenv');
 const { urlencoded } = require('body-parser')
-dotenv.config();
+
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.set("view engine","ejs")
@@ -25,7 +29,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 let sessionOptions=session({
     secret:"I am so coool",
     store:new MongoStore({
-        url: 'mongodb://localhost/complexApp',
+        url: process.env.conn,
         touchAfter: 24 * 3600 // time period in seconds
     }),
     resave:false,
@@ -36,9 +40,6 @@ app.use(sessionOptions);
 app.use(flash());
 app.use(methodOverride("_method"));
 mongoose.set('useCreateIndex', true)
-mongoose.connect("mongodb://localhost/complexApp", {useUnifiedTopology: true,useNewUrlParser: true,useFindAndModify: false}).then(() => console.log('DB Connected!')).catch(err => {
-console.log("DB Connection Error: ");
-});
 
 app.use(function(req,res,next){
     res.locals.filterUserHTML=function(content){

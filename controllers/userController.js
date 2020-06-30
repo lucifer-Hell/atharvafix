@@ -83,22 +83,21 @@ router.get("/",async function(req,res){
             console.log(newUserIds)
             var posts=[]
             let k=0;
-            // for(var i=0;i<newUserIds.length;i++){
-            newUserIds.forEach(function(newUserId){
-                // var posts1=new Array()
+           
+            posts=newUserIds.map(function(newUserId){
+                var usrPost=[];
                 User.findOne({_id:newUserId},function(err,foundUser){
                     if(err){
                         console.log("Some error occured");
                     }else{
-                        // console.log(foundUser.posts)
-                        foundUser.posts.forEach(function(post){
-                            posts.push(post)
-                            // posts[k++]=post;
-                            // console.log(posts)
+                      
+                       usrPost= foundUser.posts.map(function(post){
+                            return post;
                         })
-                        console.log(posts)
+                       
                     }
-                })        
+                }) 
+                return [...usrPost]       
             })
             console.log(posts)
             res.render('home-dashboard');
