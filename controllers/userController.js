@@ -80,27 +80,20 @@ router.get("/",async function(req,res){
                 return following.followedId
             })
             
-            console.log(newUserIds)
-            var posts=[]
-            let k=0;
-           
-            posts=newUserIds.map(function(newUserId){
-                var usrPost=[];
-                User.findOne({_id:newUserId},function(err,foundUser){
-                    if(err){
-                        console.log("Some error occured");
-                    }else{
-                      
-                       usrPost= foundUser.posts.map(function(post){
-                            return post;
-                        })
-                       
-                    }
-                }) 
-                return [...usrPost]       
+            var posts=["current"]
+
+            var respo=newUserIds.map((userId)=>{
+                return User.findOne({_id:userId});
             })
+            console.log("reached")
+            let getVal= await Promise.all(respo)
+            
+             posts=[...getVal]
             console.log(posts)
-            res.render('home-dashboard');
+            res.render('home-dashboard')
+        //    response.then(()=>res.render())
+        //    .catch((err)=>res.send(err))
+            
         }
         else{
             res.render("homeguest",{regErrors:req.flash('regErrors')});
