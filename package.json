@@ -30,7 +30,7 @@
     "marked": "^0.8.2",
     "md5": "^2.2.1",
     "method-override": "^3.0.0",
-    "mongodb": "^2.2.33",
+    "mongodb": "^3.1.13",
     "mongoose": "^5.9.16",
     "nodemon": "^2.0.2",
     "sanitize-html": "^1.26.0",
